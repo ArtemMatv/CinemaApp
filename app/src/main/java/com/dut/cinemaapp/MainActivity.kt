@@ -3,15 +3,12 @@ package com.dut.cinemaapp
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private var textList = mutableListOf<String>()
     private var titles = mutableListOf<String>()
-    lateinit var pager: ViewPager2
-    lateinit var tabLayout: TabLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,25 +16,16 @@ class MainActivity : AppCompatActivity() {
 
         postToList()
 
-        pager =  findViewById(R.id.view_pager2)
-        tabLayout = findViewById(R.id.tabLayout)
+        view_pager2.adapter = ViewPagerAdapter(titles.size)
+        view_pager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-        pager.adapter = ViewPagerAdapter(textList)
-        pager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-
-        TabLayoutMediator(tabLayout, pager) {
-            tab, position -> tab.text = titles[position]
+        TabLayoutMediator(tabLayout, view_pager2) { tab, position ->
+            tab.text = titles[position]
         }.attach()
     }
 
-    private fun addToList(text: String, title: String){
-        textList.add(text)
-        titles.add(title)
-    }
-
-    private fun postToList(){
-        for (i in 1..5){
-            addToList("$i", "Tab number #$i")
-        }
+    private fun postToList() {
+        titles.add("Actual sessions")
+        titles.add("All movies")
     }
 }

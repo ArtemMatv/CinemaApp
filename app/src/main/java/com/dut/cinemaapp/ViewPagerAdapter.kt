@@ -1,28 +1,61 @@
 package com.dut.cinemaapp
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.dut.cinemaapp.ViewPagerAdapter as ViewPagerAdapter1
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.dut.cinemaapp.adapters.ActualSessionsAdapter
+import com.dut.cinemaapp.adapters.AllMoviesAdapter
+import com.dut.cinemaapp.adapters.DataUpdatable
+import kotlinx.android.synthetic.main.item_page.view.*
 
-class ViewPagerAdapter(private var text: List<String>) : RecyclerView.Adapter<ViewPagerAdapter1.Pager2ViewHolder>() {
+class ViewPagerAdapter(private var amount: Int) :
+    RecyclerView.Adapter<ViewPagerAdapter.Pager2ViewHolder>() {
+    private lateinit var activityContext: Context
+
     inner class Pager2ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val itemTitle: TextView = itemView.findViewById(R.id.text)
+        val recycler: RecyclerView = itemView.recycler
+        val swipe: SwipeRefreshLayout = itemView.swipeRefresh
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Pager2ViewHolder {
-        return Pager2ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_page, parent, false))
+        val holder = Pager2ViewHolder(
+            LayoutInflater
+                .from(parent.context)
+                .inflate(
+                    R.layout.item_page,
+                    parent,
+                    false
+                )
+        )
+
+        activityContext = parent.context
+        holder.recycler.layoutManager = LinearLayoutManager(parent.context)
+        holder.recycler.setHasFixedSize(true)
+
+        return holder
     }
 
     override fun onBindViewHolder(holder: Pager2ViewHolder, position: Int) {
-        holder.itemTitle.text = text[position]
+        if (position == 0){
+            holder.recycler.adapter = ActualSessionsAdapter(mutableListOf())
+        }
+        else if (position == 1){
+            holder.recycler.adapter = AllMoviesAdapter(mutableListOf())
+        }
+
+
+        holder.swipe.setOnRefreshListener {
+            (holder.recycler.adapter as DataUpdatable).updateData(holder, activityContext)
+        }
+
+        (holder.recycler.adapter as DataUpdatable).updateData(holder, activityContext)
     }
 
     override fun getItemCount(): Int {
-        return text.size
+        return amount
     }
-
-
 }
