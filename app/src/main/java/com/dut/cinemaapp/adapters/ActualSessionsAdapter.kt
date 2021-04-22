@@ -10,8 +10,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.dut.cinemaapp.R
-import com.dut.cinemaapp.ViewPagerAdapter
 import com.dut.cinemaapp.domain.Session
+import com.dut.cinemaapp.interfaces.DataUpdatable
 import com.dut.cinemaapp.services.SessionsService
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.session_item.view.*
@@ -23,6 +23,8 @@ import java.text.SimpleDateFormat
 class ActualSessionsAdapter(private val sessionsList: List<Session>) :
     RecyclerView.Adapter<ActualSessionsAdapter.ActualSession>(), DataUpdatable {
 
+    private lateinit var activityContext: Context
+
     inner class ActualSession(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.session_image
         val movieTitle: TextView = itemView.session_title
@@ -30,6 +32,7 @@ class ActualSessionsAdapter(private val sessionsList: List<Session>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActualSession {
+        activityContext = parent.context
         return ActualSession(
             LayoutInflater
                 .from(parent.context)
@@ -59,11 +62,11 @@ class ActualSessionsAdapter(private val sessionsList: List<Session>) :
         return sessionsList.size
     }
 
-    override fun updateData(holder: ViewPagerAdapter.Pager2ViewHolder, context: Context) {
+    override fun updateData(holder: ViewPagerAdapter.Pager2ViewHolder) {
         SessionsService().getSessions().enqueue(object : Callback<List<Session>> {
             @SuppressLint("ShowToast")
             override fun onFailure(call: Call<List<Session>>?, t: Throwable?) {
-                Toast.makeText(context, t?.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(activityContext, t?.message, Toast.LENGTH_SHORT).show()
                 holder.swipe.isRefreshing = false
             }
 
@@ -72,8 +75,10 @@ class ActualSessionsAdapter(private val sessionsList: List<Session>) :
                 call: Call<List<Session>>?,
                 response: Response<List<Session>>?
             ) {
-                holder.recycler.adapter =
-                    ActualSessionsAdapter(response?.body() as MutableList<Session>)
+                if (response?.isSuccessful!!)
+                    holder.recycler.adapter =
+                        ActualSessionsAdapter(response.body() as MutableList<Session>)
+
                 holder.swipe.isRefreshing = false
             }
         })

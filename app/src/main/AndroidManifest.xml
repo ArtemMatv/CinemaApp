@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dut.cinemaapp">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <queries>
+        <intent>
+            <action android:name="com.google.android.youtube.api.service.START" />
+        </intent>
+    </queries>
 
     <application
         android:allowBackup="false"
@@ -9,9 +16,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.CinemaApp">
-        <activity android:name=".MainActivity">
+        android:theme="@style/Theme.CinemaApp"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".activities.MovieActivity"
+            android:label="@string/title_activity_movie"
+            android:theme="@style/Theme.CinemaApp.NoActionBar"
+            android:parentActivityName=".activities.MainActivity"/>
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

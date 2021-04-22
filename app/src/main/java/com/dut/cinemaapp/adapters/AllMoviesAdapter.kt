@@ -2,6 +2,7 @@ package com.dut.cinemaapp.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +11,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.dut.cinemaapp.R
-import com.dut.cinemaapp.ViewPagerAdapter
+import com.dut.cinemaapp.activities.MovieActivity
 import com.dut.cinemaapp.domain.Movie
+import com.dut.cinemaapp.interfaces.DataUpdatable
 import com.dut.cinemaapp.services.MoviesService
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.movie_item.view.*
@@ -19,7 +21,11 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class AllMoviesAdapter(private val movieList: List<Movie>) : RecyclerView.Adapter<AllMoviesAdapter.MovieViewHolder>(), DataUpdatable{
+class AllMoviesAdapter(private val movieList: List<Movie>) :
+    RecyclerView.Adapter<AllMoviesAdapter.MovieViewHolder>(),
+    DataUpdatable {
+
+    private lateinit var activityContext: Context
 
     inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.movie_poster
@@ -28,6 +34,7 @@ class AllMoviesAdapter(private val movieList: List<Movie>) : RecyclerView.Adapte
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
+        activityContext = parent.context
         return MovieViewHolder(
             LayoutInflater
                 .from(parent.context)
@@ -50,28 +57,41 @@ class AllMoviesAdapter(private val movieList: List<Movie>) : RecyclerView.Adapte
         currentItem.genres.forEach { e -> genres += e.name + ", " }
 
         if (genres.endsWith(", "))
-            genres = genres.substring(0, genres.length-2)
+            genres = genres.substring(0, genres.length - 2)
 
         holder.genres.text = genres
+
+        holder.itemView.setOnClickListener {
+            onClickListener(currentItem.id)
+        }
     }
 
     override fun getItemCount(): Int {
         return movieList.size
     }
 
-    override fun updateData(holder: ViewPagerAdapter.Pager2ViewHolder, context: Context){
+    override fun updateData(holder: ViewPagerAdapter.Pager2ViewHolder) {
         MoviesService().getMovies().enqueue(object : Callback<List<Movie>> {
             @SuppressLint("ShowToast")
             override fun onFailure(call: Call<List<Movie>>?, t: Throwable?) {
-                Toast.makeText(context, t?.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(activityContext, t?.message, Toast.LENGTH_SHORT).show()
                 holder.swipe.isRefreshing = false
             }
 
             @SuppressLint("ShowToast")
             override fun onResponse(call: Call<List<Movie>>?, response: Response<List<Movie>>?) {
-                holder.recycler.adapter = AllMoviesAdapter(response?.body() as MutableList<Movie>)
+                if (response?.isSuccessful!!)
+                    holder.recycler.adapter =
+                        AllMoviesAdapter(response.body() as MutableList<Movie>)
+
                 holder.swipe.isRefreshing = false
             }
         })
+    }
+
+    private fun onClickListener(id: Long) {
+        var intent = Intent(activityContext, MovieActivity::class.java)
+        intent.putExtra("id", id)
+        activityContext.startActivity(intent)
     }
 }

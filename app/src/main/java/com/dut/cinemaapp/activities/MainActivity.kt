@@ -1,8 +1,10 @@
-package com.dut.cinemaapp
+package com.dut.cinemaapp.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
+import com.dut.cinemaapp.R
+import com.dut.cinemaapp.adapters.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_main.*
 

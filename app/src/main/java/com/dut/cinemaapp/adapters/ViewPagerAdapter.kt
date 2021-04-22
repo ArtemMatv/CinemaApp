@@ -1,4 +1,4 @@
-package com.dut.cinemaapp
+package com.dut.cinemaapp.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.dut.cinemaapp.adapters.ActualSessionsAdapter
-import com.dut.cinemaapp.adapters.AllMoviesAdapter
-import com.dut.cinemaapp.adapters.DataUpdatable
+import com.dut.cinemaapp.R
+import com.dut.cinemaapp.interfaces.DataUpdatable
 import kotlinx.android.synthetic.main.item_page.view.*
 
 class ViewPagerAdapter(private var amount: Int) :
     RecyclerView.Adapter<ViewPagerAdapter.Pager2ViewHolder>() {
+
     private lateinit var activityContext: Context
 
     inner class Pager2ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -49,10 +49,10 @@ class ViewPagerAdapter(private var amount: Int) :
 
 
         holder.swipe.setOnRefreshListener {
-            (holder.recycler.adapter as DataUpdatable).updateData(holder, activityContext)
+            (holder.recycler.adapter as DataUpdatable).updateData(holder)
         }
 
-        (holder.recycler.adapter as DataUpdatable).updateData(holder, activityContext)
+        (holder.recycler.adapter as DataUpdatable).updateData(holder)
     }
 
     override fun getItemCount(): Int {
