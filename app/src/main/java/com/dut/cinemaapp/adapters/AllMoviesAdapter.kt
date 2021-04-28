@@ -21,11 +21,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class AllMoviesAdapter(private val movieList: List<Movie>) :
+class AllMoviesAdapter(private val movieList: List<Movie>, private val activityContext: Context) :
     RecyclerView.Adapter<AllMoviesAdapter.MovieViewHolder>(),
     DataUpdatable {
-
-    private lateinit var activityContext: Context
 
     inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.movie_poster
@@ -34,7 +32,6 @@ class AllMoviesAdapter(private val movieList: List<Movie>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-        activityContext = parent.context
         return MovieViewHolder(
             LayoutInflater
                 .from(parent.context)
@@ -82,7 +79,9 @@ class AllMoviesAdapter(private val movieList: List<Movie>) :
             override fun onResponse(call: Call<List<Movie>>?, response: Response<List<Movie>>?) {
                 if (response?.isSuccessful!!)
                     holder.recycler.adapter =
-                        AllMoviesAdapter(response.body() as MutableList<Movie>)
+                        AllMoviesAdapter(response.body() as MutableList<Movie>, activityContext)
+                else
+                    Toast.makeText(activityContext, "Error " + response.code().toString(), Toast.LENGTH_SHORT).show()
 
                 holder.swipe.isRefreshing = false
             }

@@ -2,6 +2,7 @@ package com.dut.cinemaapp.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.dut.cinemaapp.R
+import com.dut.cinemaapp.activities.MovieActivity
 import com.dut.cinemaapp.domain.Session
 import com.dut.cinemaapp.interfaces.DataUpdatable
 import com.dut.cinemaapp.services.SessionsService
@@ -20,10 +22,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 
-class ActualSessionsAdapter(private val sessionsList: List<Session>) :
+class ActualSessionsAdapter(private val sessionsList: List<Session>, private val activityContext: Context) :
     RecyclerView.Adapter<ActualSessionsAdapter.ActualSession>(), DataUpdatable {
-
-    private lateinit var activityContext: Context
 
     inner class ActualSession(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.session_image
@@ -32,7 +32,6 @@ class ActualSessionsAdapter(private val sessionsList: List<Session>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActualSession {
-        activityContext = parent.context
         return ActualSession(
             LayoutInflater
                 .from(parent.context)
@@ -56,6 +55,9 @@ class ActualSessionsAdapter(private val sessionsList: List<Session>) :
                     .parse(currentItem.date)
             )
 
+        holder.itemView.setOnClickListener {
+            onClickListener(currentItem.movieId)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -77,10 +79,18 @@ class ActualSessionsAdapter(private val sessionsList: List<Session>) :
             ) {
                 if (response?.isSuccessful!!)
                     holder.recycler.adapter =
-                        ActualSessionsAdapter(response.body() as MutableList<Session>)
+                        ActualSessionsAdapter(response.body() as MutableList<Session>, activityContext)
+                else
+                    Toast.makeText(activityContext, "Error " + response.code().toString(), Toast.LENGTH_SHORT).show()
 
                 holder.swipe.isRefreshing = false
             }
         })
+    }
+
+    private fun onClickListener(id: Long) {
+        var intent = Intent(activityContext, MovieActivity::class.java)
+        intent.putExtra("id", id)
+        activityContext.startActivity(intent)
     }
 }

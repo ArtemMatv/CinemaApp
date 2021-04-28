@@ -16,7 +16,7 @@ class MoviesService {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiCaller::class.java)
-            .getMovies("Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrdmF6YXIyNTY5QGdtYWlsLmNvbSIsInJvbGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfQURNSU4iXSwiaWF0IjoxNjE5MTE0NzY5LCJleHAiOjE2MTkxMTgzNjl9.NiZQejEjZRD-kDNXVKMc0Vwm5nGWZkgfHQMVdyXpCuE")
+            .getMovies("Bearer_" + AccountService.Singleton.getInstance()?.token!!)
     }
 
     fun getMovie(id: Long): Call<Movie> {
@@ -27,15 +27,20 @@ class MoviesService {
             .create(ApiCaller::class.java)
             .getMovie(
                 id,
-                "Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrdmF6YXIyNTY5QGdtYWlsLmNvbSIsInJvbGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfQURNSU4iXSwiaWF0IjoxNjE5MTE0NzY5LCJleHAiOjE2MTkxMTgzNjl9.NiZQejEjZRD-kDNXVKMc0Vwm5nGWZkgfHQMVdyXpCuE"
+                "Bearer_" + AccountService.Singleton.getInstance()?.token!!
             )
     }
 
     private interface ApiCaller {
         @GET("movies/all")
-        fun getMovies(@Header("Authorization") token: String): Call<List<Movie>>
+        fun getMovies(
+            @Header("Authorization") token: String
+        ): Call<List<Movie>>
 
         @GET("movies/{id}")
-        fun getMovie(@Path("id") movieId: Long, @Header("Authorization") token: String): Call<Movie>
+        fun getMovie(
+            @Path("id") movieId: Long,
+            @Header("Authorization") token: String
+        ): Call<Movie>
     }
 }

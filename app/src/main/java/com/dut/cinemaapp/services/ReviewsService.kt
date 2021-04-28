@@ -16,7 +16,7 @@ class ReviewsService {
             .create(ApiCaller::class.java)
             .getReviews(
                 id,
-                "Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrdmF6YXIyNTY5QGdtYWlsLmNvbSIsInJvbGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfQURNSU4iXSwiaWF0IjoxNjE5MTE0NzY5LCJleHAiOjE2MTkxMTgzNjl9.NiZQejEjZRD-kDNXVKMc0Vwm5nGWZkgfHQMVdyXpCuE"
+                "Bearer_" + AccountService.Singleton.getInstance()?.token!!
             )
     }
 
@@ -28,7 +28,7 @@ class ReviewsService {
             .create(ApiCaller::class.java)
             .createReview(
                 newReview,
-                "Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrdmF6YXIyNTY5QGdtYWlsLmNvbSIsInJvbGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfQURNSU4iXSwiaWF0IjoxNjE5MTE0NzY5LCJleHAiOjE2MTkxMTgzNjl9.NiZQejEjZRD-kDNXVKMc0Vwm5nGWZkgfHQMVdyXpCuE"
+                "Bearer_" + AccountService.Singleton.getInstance()?.token!!
             )
     }
 

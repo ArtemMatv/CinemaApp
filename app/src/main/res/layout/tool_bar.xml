@@ -1,23 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tool_bar"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="60dp"
     android:gravity="center">
 
-    <Button
-        android:id="@+id/btn_back"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@color/white"
-        android:text="Back"
-        android:textColor="@color/black"
-        android:textSize="10sp" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        >
 
-    <TextView
-        android:id="@+id/tool_bar_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Joker"
-        android:textSize="32sp" />
+        <TextView
+            android:id="@+id/tool_bar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Joker"
+            android:textSize="32sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/tool_bar_btn"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="4dp"
+            android:background="@color/white"
+            android:padding="0dp"
+            android:text="Back"
+            android:textColor="@color/black"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </Toolbar>

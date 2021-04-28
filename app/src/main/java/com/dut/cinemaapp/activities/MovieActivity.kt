@@ -6,8 +6,10 @@ import com.dut.cinemaapp.R
 import com.dut.cinemaapp.domain.Review
 import com.dut.cinemaapp.dto.review.NewReview
 import com.dut.cinemaapp.repsenters.MovieRepresenter
+import com.dut.cinemaapp.services.AccountService
 import com.dut.cinemaapp.services.ReviewsService
 import com.google.android.youtube.player.YouTubeBaseActivity
+import kotlinx.android.synthetic.main.loading_comp.*
 import kotlinx.android.synthetic.main.movie_layout.*
 import kotlinx.android.synthetic.main.review_create.*
 import kotlinx.android.synthetic.main.reviews_layout.*
@@ -29,10 +31,15 @@ class MovieActivity : YouTubeBaseActivity() {
         tool_bar.title = ""
         setActionBar(tool_bar)
 
-        btn_back.setOnClickListener { onBackPressed() }
+        tool_bar_btn.setOnClickListener { onBackPressed() }
 
         id = intent.extras?.getLong("id")!!
 
+        initializeRepresenter()
+        setOnCreateListener()
+    }
+
+    private fun initializeRepresenter() {
         movieRepresenter = MovieRepresenter(
             id,
             this,
@@ -50,9 +57,13 @@ class MovieActivity : YouTubeBaseActivity() {
         )
 
         movieRepresenter.loadData()
+    }
 
+    private fun setOnCreateListener() {
         reviewCreateButton.setOnClickListener {
-            ReviewsService().createReview(NewReview(reviewCreateText.text.toString(), id, -1))
+            ReviewsService().createReview(NewReview(reviewCreateText.text.toString(), id,
+                AccountService.Singleton.getInstance()?.id!!
+            ))
                 .enqueue(
                     object :
                         Callback<Review> {
@@ -62,7 +73,7 @@ class MovieActivity : YouTubeBaseActivity() {
                             else
                                 Toast.makeText(
                                     this@MovieActivity,
-                                    response.code().toString(),
+                                    "Error " + response.code().toString(),
                                     Toast.LENGTH_LONG
                                 ).show()
                         }

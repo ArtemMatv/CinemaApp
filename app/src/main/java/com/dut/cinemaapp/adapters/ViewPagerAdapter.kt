@@ -41,10 +41,10 @@ class ViewPagerAdapter(private var amount: Int) :
 
     override fun onBindViewHolder(holder: Pager2ViewHolder, position: Int) {
         if (position == 0){
-            holder.recycler.adapter = ActualSessionsAdapter(mutableListOf())
+            holder.recycler.adapter = ActualSessionsAdapter(mutableListOf(), activityContext)
         }
         else if (position == 1){
-            holder.recycler.adapter = AllMoviesAdapter(mutableListOf())
+            holder.recycler.adapter = AllMoviesAdapter(mutableListOf(), activityContext)
         }
 
 

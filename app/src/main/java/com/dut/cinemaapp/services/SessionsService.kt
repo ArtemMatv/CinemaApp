@@ -16,7 +16,7 @@ class SessionsService {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiCaller::class.java)
-            .getSessions("Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrdmF6YXIyNTY5QGdtYWlsLmNvbSIsInJvbGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfQURNSU4iXSwiaWF0IjoxNjE5MTE0NzY5LCJleHAiOjE2MTkxMTgzNjl9.NiZQejEjZRD-kDNXVKMc0Vwm5nGWZkgfHQMVdyXpCuE")
+            .getSessions("Bearer_" + AccountService.Singleton.getInstance()?.token!!)
     }
 
     interface ApiCaller {

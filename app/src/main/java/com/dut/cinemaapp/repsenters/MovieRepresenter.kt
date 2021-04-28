@@ -34,7 +34,7 @@ class MovieRepresenter(
     private val movieCountry: TextView,
     private val tool_bar_title: TextView,
     private val reviews_recycler: RecyclerView,
-    private val reviewLabel: TextView,
+    private val reviewLabel: TextView
 ) {
 
     lateinit var movie: Movie
@@ -43,9 +43,16 @@ class MovieRepresenter(
     fun loadData() {
         MoviesService().getMovie(id).enqueue(object : Callback<Movie> {
             override fun onResponse(call: Call<Movie>, response: Response<Movie>) {
-                movie = response.body() as Movie
-                setMovieData()
-                loadReviews()
+                if (response.isSuccessful) {
+                    movie = response.body() as Movie
+                    setMovieData()
+                    loadReviews()
+                } else
+                    Toast.makeText(
+                        context,
+                        "Error " + response.code().toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
             }
 
             override fun onFailure(call: Call<Movie>, t: Throwable) {
@@ -59,10 +66,17 @@ class MovieRepresenter(
         ReviewsService().getComments(movie.id).enqueue(object : Callback<List<Review>> {
             override fun onResponse(
                 call: Call<List<Review>>,
-                response1: Response<List<Review>>
+                response: Response<List<Review>>
             ) {
-                reviews = response1.body() as List<Review>
-                setReviewsData()
+                if (response.isSuccessful) {
+                    reviews = response.body() as List<Review>
+                    setReviewsData()
+                } else
+                    Toast.makeText(
+                        context,
+                        "Error " + response.code().toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
             }
 
             override fun onFailure(call: Call<List<Review>>, t1: Throwable) {

@@ -19,16 +19,20 @@
         android:theme="@style/Theme.CinemaApp"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".activities.MovieActivity"
-            android:label="@string/title_activity_movie"
-            android:theme="@style/Theme.CinemaApp.NoActionBar"
-            android:parentActivityName=".activities.MainActivity"/>
-        <activity android:name=".activities.MainActivity">
+            android:name=".activities.LoginActivity"
+            android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.MovieActivity"
+            android:label="@string/title_activity_movie"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/Theme.CinemaApp.NoActionBar" />
+        <activity android:name=".activities.MainActivity"
+            android:theme="@style/Theme.CinemaApp.NoActionBar">
         </activity>
     </application>
 
