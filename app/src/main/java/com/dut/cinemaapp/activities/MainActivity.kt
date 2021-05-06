@@ -23,11 +23,16 @@ class MainActivity : AppCompatActivity() {
         tool_bar.title = ""
         tool_bar_title.text = "DutCinema"
         setActionBar(tool_bar)
+
         tool_bar_btn.text = "Logout"
         tool_bar_btn.setOnClickListener {
             AccountService.Singleton.getInstance()?.logout {
                 this.startActivity(Intent(this, LoginActivity::class.java))
             }
+        }
+
+        toolbar_acc_btn.setOnClickListener {
+            this.startActivity(Intent(this, AccountActivity::class.java))
         }
 
         postToList()

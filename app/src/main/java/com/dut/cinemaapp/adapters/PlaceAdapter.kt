@@ -46,7 +46,7 @@ class PlaceAdapter(
 
         place.id = position
 
-        place.layoutParams = LinearLayout.LayoutParams(50, 50)
+        place.layoutParams = LinearLayout.LayoutParams(80, 80)
 
         place.setPadding(1, 1, 1, 1)
 

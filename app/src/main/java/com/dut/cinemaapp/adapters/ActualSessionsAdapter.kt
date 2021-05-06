@@ -50,6 +50,7 @@ class ActualSessionsAdapter(
         )
     }
 
+    @SuppressLint("SimpleDateFormat")
     override fun onBindViewHolder(holder: ActualSession, position: Int) {
         val currentItem = sessionsList[position]
 

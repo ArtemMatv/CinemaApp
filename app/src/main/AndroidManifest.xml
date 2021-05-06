@@ -19,6 +19,9 @@
         android:theme="@style/Theme.CinemaApp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activities.RegisterActivity"
+            android:label="Registration" />
+        <activity
             android:name=".activities.AccountActivity"
             android:theme="@style/Theme.CinemaApp.NoActionBar" />
         <activity
@@ -30,7 +33,7 @@
             android:theme="@style/Theme.CinemaApp.NoActionBar" />
         <activity
             android:name=".activities.LoginActivity"
-            android:label="@string/title_activity_login">
+            android:label="Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

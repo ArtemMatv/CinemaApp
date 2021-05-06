@@ -3,7 +3,6 @@ package com.dut.cinemaapp.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.dut.cinemaapp.R
 import com.dut.cinemaapp.services.AccountService
@@ -29,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
             setLoading(false)
 
             register.setOnClickListener {
-                Toast.makeText(this, "Not implemented", Toast.LENGTH_LONG).show()
+                this.startActivity(Intent(this, RegisterActivity::class.java))
             }
 
             login.setOnClickListener {
@@ -60,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun moveToMainActivity(){
-        setLoading(false)
         this.startActivity(Intent(this, MainActivity::class.java))
+        setLoading(false)
     }
 }

@@ -23,7 +23,7 @@ class SessionShortActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_sessions)
 
-        tool_bar_title.text = intent.getStringExtra("title")
+        //tool_bar_title.text = intent.getStringExtra("title")
         setActionBar(tool_bar)
         tool_bar_btn.setOnClickListener { onBackPressed() }
 

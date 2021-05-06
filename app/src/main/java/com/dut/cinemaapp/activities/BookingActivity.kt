@@ -29,6 +29,15 @@ class BookingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_booking)
 
+        tool_bar_title.text = ""
+        setActionBar(tool_bar)
+
+        tool_bar_btn.setOnClickListener { onBackPressed() }
+
+        toolbar_acc_btn.setOnClickListener {
+            this.startActivity(Intent(this, AccountActivity::class.java))
+        }
+
         getSessionData()
 
         booking_chosen_places.adapter = SelectedPlacesAdapter(chosenTickets)
@@ -89,7 +98,7 @@ class BookingActivity : AppCompatActivity() {
                                             .parse(session?.date!!)!!
                                     )
 
-                                booking_places.numColumns = tickets?.rowsAmount!!
+                                booking_places.numColumns = tickets?.place!!
 
                                 booking_places.adapter = PlaceAdapter(
                                     this@BookingActivity,
@@ -101,7 +110,7 @@ class BookingActivity : AppCompatActivity() {
 
                                 booking_places.layoutParams = LinearLayout.LayoutParams(
                                     booking_places.width,
-                                    tickets?.place!! * 50,
+                                    tickets?.rowsAmount!! * 80,
                                 )
                             }
 

@@ -32,7 +32,6 @@ class MovieRepresenter(
     private val movieDescription: TextView,
     private val movieActors: TextView,
     private val movieCountry: TextView,
-    private val tool_bar_title: TextView,
     private val reviews_recycler: RecyclerView,
     private val reviewLabel: TextView
 ) {
@@ -91,8 +90,6 @@ class MovieRepresenter(
 
     @SuppressLint("SetTextI18n")
     private fun setMovieData() {
-        tool_bar_title.text = movie.title
-
         movieTrailer.initialize(
             context.getString(R.string.youtubeApi),
             object : YouTubePlayer.OnInitializedListener {

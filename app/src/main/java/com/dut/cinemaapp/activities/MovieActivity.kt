@@ -34,6 +34,10 @@ class MovieActivity : YouTubeBaseActivity() {
 
         tool_bar_btn.setOnClickListener { onBackPressed() }
 
+        toolbar_acc_btn.setOnClickListener {
+            this.startActivity(Intent(this, AccountActivity::class.java))
+        }
+
         id = intent.extras?.getLong("id")!!
 
         initializeRepresenter()
@@ -53,7 +57,6 @@ class MovieActivity : YouTubeBaseActivity() {
             movieDescription,
             movieActors,
             movieCountry,
-            tool_bar_title,
             reviews_recycler,
             reviewLabel
         )
