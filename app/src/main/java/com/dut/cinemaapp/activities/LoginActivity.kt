@@ -60,6 +60,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun moveToMainActivity(){
+        setLoading(false)
         this.startActivity(Intent(this, MainActivity::class.java))
     }
 }

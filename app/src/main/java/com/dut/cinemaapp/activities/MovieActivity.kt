@@ -1,5 +1,6 @@
 package com.dut.cinemaapp.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import com.dut.cinemaapp.R
@@ -37,6 +38,7 @@ class MovieActivity : YouTubeBaseActivity() {
 
         initializeRepresenter()
         setOnCreateListener()
+        setSessionsButton()
     }
 
     private fun initializeRepresenter() {
@@ -68,8 +70,10 @@ class MovieActivity : YouTubeBaseActivity() {
                     object :
                         Callback<Review> {
                         override fun onResponse(call: Call<Review>, response: Response<Review>) {
-                            if (response.isSuccessful)
+                            if (response.isSuccessful){
                                 movieRepresenter.loadReviews()
+                                reviewCreateText.setText("")
+                            }
                             else
                                 Toast.makeText(
                                     this@MovieActivity,
@@ -86,6 +90,16 @@ class MovieActivity : YouTubeBaseActivity() {
                             ).show()
                         }
                     })
+        }
+    }
+
+    private fun setSessionsButton(){
+        movieSessions.text = "Sessions"
+        movieSessions.setOnClickListener {
+            var intent = Intent(this, SessionShortActivity::class.java)
+            intent.putExtra("title", movieRepresenter.movie.title)
+            intent.putExtra("id", movieRepresenter.movie.id)
+            this.startActivity(intent)
         }
     }
 }
