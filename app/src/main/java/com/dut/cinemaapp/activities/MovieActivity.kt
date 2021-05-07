@@ -1,5 +1,6 @@
 package com.dut.cinemaapp.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -49,16 +50,6 @@ class MovieActivity : YouTubeBaseActivity() {
         movieRepresenter = MovieRepresenter(
             id,
             this,
-            movieTrailer,
-            moviePoster,
-            movieTitle,
-            movieDuration,
-            movieGenres,
-            movieDescription,
-            movieActors,
-            movieCountry,
-            reviews_recycler,
-            reviewLabel
         )
 
         movieRepresenter.loadData()
@@ -66,18 +57,20 @@ class MovieActivity : YouTubeBaseActivity() {
 
     private fun setOnCreateListener() {
         reviewCreateButton.setOnClickListener {
-            ReviewsService().createReview(NewReview(reviewCreateText.text.toString(), id,
-                AccountService.Singleton.getInstance()?.id!!
-            ))
+            ReviewsService().createReview(
+                NewReview(
+                    reviewCreateText.text.toString(), id,
+                    AccountService.Singleton.getInstance()?.id!!
+                )
+            )
                 .enqueue(
                     object :
                         Callback<Review> {
                         override fun onResponse(call: Call<Review>, response: Response<Review>) {
-                            if (response.isSuccessful){
+                            if (response.isSuccessful) {
                                 movieRepresenter.loadReviews()
                                 reviewCreateText.setText("")
-                            }
-                            else
+                            } else
                                 Toast.makeText(
                                     this@MovieActivity,
                                     "Error " + response.code().toString(),
@@ -96,10 +89,11 @@ class MovieActivity : YouTubeBaseActivity() {
         }
     }
 
-    private fun setSessionsButton(){
+    @SuppressLint("SetTextI18n")
+    private fun setSessionsButton() {
         movieSessions.text = "Sessions"
         movieSessions.setOnClickListener {
-            var intent = Intent(this, SessionShortActivity::class.java)
+            val intent = Intent(this, SessionShortActivity::class.java)
             intent.putExtra("title", movieRepresenter.movie.title)
             intent.putExtra("id", movieRepresenter.movie.id)
             this.startActivity(intent)
