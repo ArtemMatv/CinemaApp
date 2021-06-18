@@ -75,6 +75,7 @@ class AllMoviesAdapter(private val movieList: List<Movie>, private val activityC
             override fun onFailure(call: Call<List<Movie>>?, t: Throwable?) {
                 Toast.makeText(activityContext, t?.message, Toast.LENGTH_SHORT).show()
                 holder.swipe.isRefreshing = false
+                (activityContext as AppCompatActivity).loading.visibility = View.GONE
             }
 
             @SuppressLint("ShowToast")

@@ -1,7 +1,7 @@
 package com.dut.cinemaapp.services
 
 import com.dut.cinemaapp.domain.Review
-import com.dut.cinemaapp.dto.review.NewReview
+import com.dut.cinemaapp.domain.NewReview
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

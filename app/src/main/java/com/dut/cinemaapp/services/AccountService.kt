@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import android.widget.Toast
 import com.dut.cinemaapp.domain.UserLoginResponse
 import com.google.gson.Gson
 import retrofit2.Call
@@ -73,7 +74,11 @@ class AccountService {
             }
 
             override fun onFailure(call: Call<UserLoginResponse>, t: Throwable) {
-
+                Toast.makeText(
+                    context,
+                    "Error",
+                    Toast.LENGTH_LONG
+                ).show()
             }
 
         })

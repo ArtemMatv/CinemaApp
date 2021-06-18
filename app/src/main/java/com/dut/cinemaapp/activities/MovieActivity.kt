@@ -5,8 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import com.dut.cinemaapp.R
+import com.dut.cinemaapp.domain.NewReview
 import com.dut.cinemaapp.domain.Review
-import com.dut.cinemaapp.dto.review.NewReview
 import com.dut.cinemaapp.repsenters.MovieRepresenter
 import com.dut.cinemaapp.services.AccountService
 import com.dut.cinemaapp.services.ReviewsService
